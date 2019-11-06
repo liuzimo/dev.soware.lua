@@ -1,6 +1,6 @@
 --解析b站av号
 function getInfo(av)
-    av = av:match("av(%d+)")
+    av = av:match("(%d+)")
     local html = apiHttpGet("http://api.bilibili.com/x/web-interface/view?aid="..av)
     if not html then return "查找失败" end
     local j,r,e = jsonDecode(html)

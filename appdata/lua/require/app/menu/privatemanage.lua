@@ -353,7 +353,7 @@ return {
             return "删除监听 1,2,3,4"
         end
     },
-    {--!监听列表
+    {--监听列表
         check = function()
             return msg:find("监听列表") == 1
         end,
@@ -413,6 +413,75 @@ return {
         end,
         explain = function()
             return "关闭监听"
+        end
+    },
+    {--广告关键字设置
+        check = function()
+            return msg:find("添加广告")==1
+        end,
+        run = function()
+            local keys = msg:gsub("添加广告","")
+            keys = kickSpace(keys)
+            local key
+            if keys:find(",")~=nil then
+                key = keys:split(",")
+            else
+                key = keys:split("，")
+            end
+            for i=1,#key do
+                apiXmlSet("","advert",key[i],"1")
+            end
+            sendMessage("添加成功")
+            return true
+        end,
+        explain = function()--功能解释，返回为字符串，若无需显示解释，返回nil即可
+            return "添加监听 1,2,3,4"
+        end
+    },
+    {--广告关键字删除
+        check = function()
+            return msg:find("删除广告")==1
+        end,
+        run = function()
+            local keys = msg:gsub("删除广告","")
+            keys = kickSpace(keys)
+            local key
+            if keys:find(",")~=nil then
+                key = keys:split(",")
+            else
+                key = keys:split("，")
+            end
+            for i=1,#key do
+                apiXmlRemove("","advert",key[i],"1")
+            end
+            sendMessage("删除成功")
+            return true
+        end,
+        explain = function()--功能解释，返回为字符串，若无需显示解释，返回nil即可
+            return "删除监听 1,2,3,4"
+        end
+    },
+    {--广告列表
+        check = function()
+            return msg:find("广告列表") == 1
+        end,
+        run = function()
+            local dlist = apiXmlIdListGet("", "advert")
+            local num = dlist[0]
+            local list = dlist[1]
+            local n = ""
+            for i = 0, num do
+                if i==num then
+                    n = n .. list[i]
+                    break
+                end
+                n = n .. list[i] .. "\n"
+            end
+            sendMessage("广告关键字：\n" ..n ) 
+            return true
+        end,
+        explain = function()
+            return "广告列表"
         end
     },
     {--开启定时任务

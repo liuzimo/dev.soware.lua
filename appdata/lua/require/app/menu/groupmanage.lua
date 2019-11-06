@@ -403,7 +403,7 @@ return {
     },
     {--不发语音
         check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不要发语音")
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不可以发语音")
         end,
         run = function()
             apiXmlSet("","norecord",tostring(group),"f")
@@ -411,12 +411,12 @@ return {
             return true
         end,
         explain = function()
-            return "不要发语音"
+            return "不可以发语音"
         end
     },
     {--不发图片
         check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不要发图")
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不可以发图")
         end,
         run = function()
             apiXmlSet("","noimage",tostring(group),"f")
@@ -424,7 +424,7 @@ return {
             return true
         end,
         explain = function()
-            return "不要发图片"
+            return "不可以发图片"
         end
     },
     {--发语音
@@ -459,6 +459,7 @@ return {
         end,
         run = function()
             local key = msg:gsub("进群欢迎语","")
+            key = kickSpace(key)
             apiXmlSet(tostring(group),"welcome","welcome",key)
             sendMessage("设置成功")
             return true
@@ -473,6 +474,7 @@ return {
         end,
         run = function()
             local key = msg:gsub("邀请统计回复","")
+            key = kickSpace(key)
             apiXmlSet(tostring(group),"invitcountrel","countrel",key)
             sendMessage("设置成功")
             return true
@@ -487,6 +489,7 @@ return {
         end,
         run = function()
             local key = msg:gsub("邀请统计","")
+            key = kickSpace(key)
             if key == "开启" then
                 apiXmlSet(tostring(group),"invitcount","is","1")
             elseif key == "关闭" then
@@ -505,6 +508,7 @@ return {
         end,
         run = function()
             local key = msg:gsub("邀请成功回复","")
+            key = kickSpace(key)
             apiXmlSet(tostring(group),"invitsuccess","success",key)
             sendMessage("设置成功")
             return true
@@ -521,9 +525,11 @@ return {
 
             if msg:find("退群通知消息主动")==1 then
                 local key = msg:gsub("退群通知消息主动","")
+                key = kickSpace(key)
                 apiXmlSet(tostring(group),"groupoutrel","active",key)
             elseif msg:find("退群通知消息被动")==1 then
                 local key = msg:gsub("退群通知消息被动","")
+                key = kickSpace(key)
                 apiXmlSet(tostring(group),"groupoutrel","passive",key)
             end
             sendMessage("设置成功")
@@ -539,6 +545,7 @@ return {
         end,
         run = function()
             local key = msg:gsub("退群通知","")
+            key = kickSpace(key)
             if key == "开启" then
                 apiXmlSet(tostring(group),"groupout","is","1")
             elseif key == "关闭" then

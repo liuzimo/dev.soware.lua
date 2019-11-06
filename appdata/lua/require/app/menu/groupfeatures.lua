@@ -4,19 +4,6 @@ return function (group,qq,msg,id)
 --所有需要运行的app
 return {
 
-    {--撤回
-        check = function()
-            return msg:find("支持所有") or msg:find("来不及解释") or msg:find("急急急") or msg:find("帮我点一下") or msg:find("点击链接")
-        end,
-        run = function()
-            if cqRepealMessage(id) == -42 then
-                sendMessage("发现疑似广告，权限不足,请管理员手动撤回")
-                return true
-            end
-            sendMessage("发现疑似广告已撤回,违规账号："..qq)
-            return true
-        end,
-    },
     {--今日运势
         check = function()
             return msg == "今日运势" or msg == "明日运势" or msg == "昨日运势"
@@ -137,7 +124,7 @@ return {
     },
     {--b站av号解析
         check = function()
-            return msg:find("av%d+")
+            return msg:find("av") == 1
         end,
         run = function()
             local av = require("app.av")

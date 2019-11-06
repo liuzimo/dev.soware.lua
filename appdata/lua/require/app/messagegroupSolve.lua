@@ -14,11 +14,12 @@ end
 return function(inmsg, inqq, ingroup, inid)
     msg, qq, group, id = inmsg, inqq, ingroup, inid
 
-    --群内不说话
+    --开启群内聊天
     if msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("说话") and admin==qq then
         apiXmlSet("","Shutup",tostring(group),"t")
     end
-    if apiXmlGet("","Shutup",tostring(group))=="f" then
+    --默认设置群内不说话
+    if apiXmlGet("","Shutup",tostring(group))~="t" then
         return true
     end
 
@@ -104,6 +105,17 @@ return function(inmsg, inqq, ingroup, inid)
             end
         end
     end
+    
+    --广告监听
+    local advert = apiXmlReplayGet("","advert",msg)
+    if advert ~= "" then
+        if cqRepealMessage(id) == -42 then
+            sendMessage("发现疑似广告，权限不足,请管理员手动撤回")
+            return true
+        end
+        sendMessage("发现疑似广告已撤回,违规账号："..qq)
+        return true
+    end
 
 
     --通用回复
@@ -129,7 +141,7 @@ return function(inmsg, inqq, ingroup, inid)
             return true
         end
         
-        if apiXmlGet("","noimage",tostring(group))~="f" and string.len(msg) < 45 then
+        if apiXmlGet("","noimage",tostring(group))~="f" and string.len(msg) < 31 then
             apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
             if cqSendGroupMessage(group,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
                 sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )

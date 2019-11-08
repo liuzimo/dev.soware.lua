@@ -275,7 +275,7 @@ return {
     },
     {--运行lua脚本
         check = function()
-            return msg:find("#lua") == 1
+            return msg:find("#") == 1
         end,
         run = function()
             if qq == admin then
@@ -283,7 +283,7 @@ return {
                     print = function (s)
                         sendMessage(tostring(s))
                     end
-                    load(cqCqCode_UnTrope(msg:sub(5)))()
+                    load(cqCqCode_UnTrope(msg:sub(2)))()
                 end)
                 if result then
                     sendMessage(cqCode_At(qq).."成功运行")
@@ -291,7 +291,7 @@ return {
                     sendMessage(cqCode_At(qq).."运行失败\r\n"..tostring(info))
                 end
             else
-                sendMessage(cqCode_At(qq).."\r\n"..apiSandBox(cqCqCode_UnTrope(msg:sub(5))))
+                sendMessage(cqCode_At(qq).."\r\n"..apiSandBox(cqCqCode_UnTrope(msg:sub(2))))
             end
             return true
         end,
@@ -484,18 +484,68 @@ return {
             return "广告列表"
         end
     },
-    {--开启定时任务
+    {--添加定时任务
         check = function()
-            return msg:find("开启定时任务") == 1
+            return msg:find("添加定时") == 1
         end,
         run = function()
-            apiTimerStart()
-            sendMessage("开启成功")
+            local keys = msg:gsub("添加定时","")
+            keys = kickSpace(keys)
+            local key = keys:split(":")
+            apiXmlSet("timer","timertask",key[1]..":"..key[2],key[3])
+            apiUpdateTimerTask()
+            sendMessage("添加成功")
             return true
         end,
         explain = function()
-            return "开启定时任务"
+            return "添加定时任务"
         end
     },
+    {--定时任务删除
+        check = function()
+            return msg:find("删除定时 ")==1
+        end,
+        run = function()
+            local keys = msg:gsub("删除定时","")
+            keys = kickSpace(keys)
+            local key
+            if keys:find(",")~=nil then
+                key = keys:split(",")
+            else
+                key = keys:split("，")
+            end
+            for i=1,#key do
+                apiXmlDelete("timer","timertask",key[i])
+            end
+            sendMessage("删除成功")
+            return true
+        end,
+        explain = function()
+            return "删除定时 1,2,3,4"
+        end
+    },
+    {--定时列表
+    check = function()
+        return msg:find("定时列表") == 1
+    end,
+    run = function()
+        local dlist = apiXmlIdListGet("timer", "timertask")
+        local num = dlist[0]
+        local list = dlist[1]
+        local n = ""
+        for i = 0, num do
+            if i==num then
+                n = n .. list[i]
+                break
+            end
+            n = n .. list[i] .. "\n"
+        end
+        sendMessage("定时列表：\n" ..n ) 
+        return true
+    end,
+    explain = function()
+        return "定时列表"
+    end
+},
 }
 end

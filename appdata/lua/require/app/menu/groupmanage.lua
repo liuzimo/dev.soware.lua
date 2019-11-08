@@ -122,28 +122,6 @@ return {
             return "定时 时间:消息 --每天 --未实现"
         end
     },
-    {--进群问候
-        check = function()
-            return msg:find("进群问候 ") == 1
-        end,
-        run = function()
-            return true
-        end,
-        explain = function()
-            return "进群问候 信息 --未实现"
-        end
-    },
-    {--新成员 私聊
-        check = function()
-            return msg:find("新成员私聊 ") == 1
-        end,
-        run = function()
-            return true
-        end,
-        explain = function()
-            return "新成员私聊 信息 --给新进群成员自动发送私聊 未实现"
-        end
-    },
     {--新成员 私聊
         check = function()
             return msg:find("成员私聊 ") == 1

@@ -503,7 +503,7 @@ return {
     },
     {--定时任务删除
         check = function()
-            return msg:find("删除定时 ")==1
+            return msg:find("删除定时")==1
         end,
         run = function()
             local keys = msg:gsub("删除定时","")
@@ -525,26 +525,116 @@ return {
         end
     },
     {--定时列表
+        check = function()
+            return msg:find("定时列表") == 1
+        end,
+        run = function()
+            local dlist = apiXmlIdListGet("timer", "timertask")
+            local num = dlist[0]
+            local list = dlist[1]
+            local n = ""
+            for i = 0, num do
+                if i==num then
+                    n = n .. list[i]
+                    break
+                end
+                n = n .. list[i] .. "\n"
+            end
+            sendMessage("定时列表：\n" ..n ) 
+            return true
+        end,
+        explain = function()
+            return "定时列表"
+        end
+    },
+    {--添加自定义脚本
+        check = function()
+            return msg:find("添加脚本") == 1
+        end,
+        run = function()
+            local keys = msg:gsub("添加脚本","")
+            keys = kickSpace(keys)
+            local key = keys:split(":")
+            apiXmlSet("script","script",key[1],key[2])
+            apiUpdateTimerTask()
+            sendMessage("添加成功")
+            return true
+        end,
+        explain = function()
+            return "添加自定义脚本"
+        end
+    },
+    {--自定义脚本删除
+        check = function()
+            return msg:find("删除脚本")==1
+        end,
+        run = function()
+            local keys = msg:gsub("删除脚本","")
+            keys = kickSpace(keys)
+            local key
+            if keys:find(",")~=nil then
+                key = keys:split(",")
+            else
+                key = keys:split("，")
+            end
+            for i=1,#key do
+                apiXmlDelete("script","script",key[i])
+            end
+            sendMessage("删除成功")
+            return true
+        end,
+        explain = function()
+            return "删除脚本 1,2,3,4"
+        end
+    },
+    {--脚本列表
+        check = function()
+            return msg:find("脚本列表") == 1
+        end,
+        run = function()
+            local dlist = apiXmlIdListGet("script", "script")
+            local num = dlist[0]
+            local list = dlist[1]
+            local n = ""
+            for i = 0, num do
+                if i==num then
+                    n = n .. list[i]
+                    break
+                end
+                n = n .. list[i] .. "\n"
+            end
+            sendMessage("脚本列表：\n" ..n ) 
+            return true
+        end,
+        explain = function()
+            return "脚本列表"
+        end
+    }, 
+    {--执行脚本
     check = function()
-        return msg:find("定时列表") == 1
+        return msg:find("执行脚本") == 1
     end,
     run = function()
-        local dlist = apiXmlIdListGet("timer", "timertask")
-        local num = dlist[0]
-        local list = dlist[1]
-        local n = ""
-        for i = 0, num do
-            if i==num then
-                n = n .. list[i]
-                break
-            end
-            n = n .. list[i] .. "\n"
+        local keys = msg:gsub("执行脚本","")
+        keys = kickSpace(keys)
+        local script = apiXmlGet("script","script",keys)
+        if script == "" then
+            return true
         end
-        sendMessage("定时列表：\n" ..n ) 
-        return true
+        local result, info = pcall(function ()
+            print = function (s)
+                sendMessage(tostring(s))
+            end
+            load(cqCqCode_UnTrope(script))()
+        end)
+        if result then
+            sendMessage(cqCode_At(qq).."脚本成功运行")
+        else
+            sendMessage(cqCode_At(qq).."脚本运行失败\r\n"..tostring(info))
+        end
     end,
     explain = function()
-        return "定时列表"
+        return "执行脚本"
     end
 },
 }

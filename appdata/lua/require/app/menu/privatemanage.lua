@@ -611,31 +611,53 @@ return {
         end
     }, 
     {--执行脚本
-    check = function()
-        return msg:find("执行脚本") == 1
-    end,
-    run = function()
-        local keys = msg:gsub("执行脚本","")
-        keys = kickSpace(keys)
-        local script = apiXmlGet("script","script",keys)
-        if script == "" then
-            return true
-        end
-        local result, info = pcall(function ()
-            print = function (s)
-                sendMessage(tostring(s))
+        check = function()
+            return msg:find("执行脚本") == 1
+        end,
+        run = function()
+            local keys = msg:gsub("执行脚本","")
+            keys = kickSpace(keys)
+            local script = apiXmlGet("script","script",keys)
+            if script == "" then
+                return true
             end
-            load(cqCqCode_UnTrope(script))()
-        end)
-        if result then
-            sendMessage(cqCode_At(qq).."脚本成功运行")
-        else
-            sendMessage(cqCode_At(qq).."脚本运行失败\r\n"..tostring(info))
+            local result, info = pcall(function ()
+                print = function (s)
+                    sendMessage(tostring(s))
+                end
+                load(cqCqCode_UnTrope(script))()
+            end)
+            if result then
+                sendMessage(cqCode_At(qq).."脚本成功运行")
+            else
+                sendMessage(cqCode_At(qq).."脚本运行失败\r\n"..tostring(info))
+            end
+        end,
+        explain = function()
+            return "执行脚本"
         end
-    end,
-    explain = function()
-        return "执行脚本"
-    end
-},
+    },
+    {--更新版本
+        check = function()
+            return msg:find("版本升级") == 1
+        end,
+        run = function()
+            sendMessage(apiUpdateScript())
+        end,
+        explain = function()
+            return "版本升级"
+        end
+    },
+    {--清理数据
+        check = function()
+            return msg:find("清理数据") == 1
+        end,
+        run = function()
+            sendMessage(apiDelCache())
+        end,
+        explain = function()
+            return "清理数据"
+        end
+    },
 }
 end

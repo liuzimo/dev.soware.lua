@@ -284,6 +284,7 @@ return {
             -- sendMessage(replyCommon)
             apiXmlSet("","settings", "adminqq",tostring(qq))
             admin = tostring(qq)
+            sendMessage("激活成功！主人QQ："..admin)
             return true
         end
     },

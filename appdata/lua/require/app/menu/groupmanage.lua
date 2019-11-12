@@ -252,6 +252,7 @@ return {
         run = function()
             local q = tonumber(msg:match("(%d+)"))
             cqSetGroupMemberRemove(group, q, false)
+            sendMessage("被操作帐号: "..q.." 不再接收加群申请:否")
             return true
         end,
         explain = function()
@@ -504,11 +505,11 @@ return {
             if msg:find("退群通知消息主动")==1 then
                 local key = msg:gsub("退群通知消息主动","")
                 key = kickSpace(key)
-                apiXmlSet(tostring(group),"groupoutrel","active",key)
+                apiXmlSet(tostring(group),"groupoutrel","passive",key)
             elseif msg:find("退群通知消息被动")==1 then
                 local key = msg:gsub("退群通知消息被动","")
                 key = kickSpace(key)
-                apiXmlSet(tostring(group),"groupoutrel","passive",key)
+                apiXmlSet(tostring(group),"groupoutrel","active",key)
             end
             sendMessage("设置成功")
             return true

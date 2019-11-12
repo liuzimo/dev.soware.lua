@@ -286,12 +286,12 @@ return {
                     load(cqCqCode_UnTrope(msg:sub(2)))()
                 end)
                 if result then
-                    sendMessage(cqCode_At(qq).."成功运行")
+                    sendMessage("成功运行")
                 else
-                    sendMessage(cqCode_At(qq).."运行失败\r\n"..tostring(info))
+                    sendMessage("运行失败\r\n"..tostring(info))
                 end
             else
-                sendMessage(cqCode_At(qq).."\r\n"..apiSandBox(cqCqCode_UnTrope(msg:sub(2))))
+                sendMessage(apiSandBox(cqCqCode_UnTrope(msg:sub(2))))
             end
             return true
         end,
@@ -628,9 +628,9 @@ return {
                 load(cqCqCode_UnTrope(script))()
             end)
             if result then
-                sendMessage(cqCode_At(qq).."脚本成功运行")
+                sendMessage("脚本成功运行")
             else
-                sendMessage(cqCode_At(qq).."脚本运行失败\r\n"..tostring(info))
+                sendMessage("脚本运行失败\r\n"..tostring(info))
             end
         end,
         explain = function()

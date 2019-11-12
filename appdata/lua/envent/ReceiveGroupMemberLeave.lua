@@ -16,17 +16,14 @@ handled = true
 --是否开启退群通知
 local is= apiXmlGet(tostring(fromgroup),"groupout","is")
 if is == "1" then   
+    
     if operateqq+0~=fromqq then
-
         local active = apiXmlGet(tostring(fromgroup),"groupoutrel","active")
-        local passive = apiXmlGet(tostring(fromgroup),"groupoutrel","passive")
-
         cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."将" ..fromqq.."踢出本群\n"..active)
         return true
     end
-    if not passive then
-        passive = ""
-    end
+    
+    local passive = apiXmlGet(tostring(fromgroup),"groupoutrel","passive")
     cqSendGroupMessage(fromgroup,tostring(fromqq).."主动离开了本群\n"..passive)
 end
 --[[

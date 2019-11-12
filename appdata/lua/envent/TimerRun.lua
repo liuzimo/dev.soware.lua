@@ -15,7 +15,7 @@ local result, info = pcall(function ()
     load(cqCqCode_UnTrope(apiXmlGet("timer","timertask",time)))()
 end)
 if result then
-    cqSendPrivateMessage(cqCode_At(qq).."定时任务成功运行")
+    cqSendPrivateMessage("定时任务成功运行")
 else
-    cqSendPrivateMessage(cqCode_At(qq).."定时任务运行失败\r\n"..tostring(info))
+    cqSendPrivateMessage("定时任务运行失败\r\n"..tostring(info))
 end

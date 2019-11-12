@@ -642,7 +642,8 @@ return {
             return msg:find("版本升级") == 1
         end,
         run = function()
-            sendMessage(apiUpdateScript())
+            --sendMessage(apiUpdateScript())
+            sendMessage("功能暂时关闭")
         end,
         explain = function()
             return "版本升级"

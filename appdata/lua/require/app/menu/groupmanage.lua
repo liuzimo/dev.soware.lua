@@ -192,7 +192,7 @@ return {
     },
     {--禁言
         check = function()
-            return msg:find("禁言%[CQ:at,qq=") == 1 and  msg:find(" ")
+            return msg:find("禁言%[CQ:at,qq=") == 1
         end,
         run = function()
             local v = tonumber(msg:match("(%d+)%]"))

@@ -162,7 +162,7 @@ return {
         end,
         run = function()
             local textocr = require("app.baiduapi.textocr")
-            sendMessage(textocr(msg))
+            sendMessage(textocr(qq,msg))
             return true
         end,
         explain = function()
@@ -175,7 +175,7 @@ return {
         end,
         run = function()
             local imageocr = require("app.baiduapi.imageocr")
-            sendMessage(imageocr(msg))
+            sendMessage(imageocr(qq,msg))
             return true
         end,
         explain = function()
@@ -271,9 +271,6 @@ return {
             --sendMessage(apiHttpPost("http://je.jonaheton.com/api_page/get_user_information","id=104314",5000,cookie))
             return true
         end,
-        explain = function()
-            return "二维码解码"
-        end
     },
     {--开机密码
         check = function()

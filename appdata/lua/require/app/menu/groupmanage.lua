@@ -537,5 +537,24 @@ return {
             return "退群通知开启/关闭"
         end
     },
+    {--图片检测
+        check = function()
+            return msg:find("图片检测")==1
+        end,
+        run = function()
+            local key = msg:gsub("图片检测","")
+            key = kickSpace(key)
+            if key == "开启" then
+                apiXmlSet("","imgraise",tostring(group),"t")
+            elseif key == "关闭" then
+                apiXmlSet("","imgraise",tostring(group),"f")
+            end
+            sendMessage("设置成功")
+            return true
+        end,
+        explain = function()
+            return "图片检测开启/关闭"
+        end
+    },
 }
 end

@@ -227,6 +227,14 @@ return {
             elseif tonumber(apiXmlGet("","qrocr",tostring(qq))) == 0 then 
                 local QRocr = require("app.QRocr")
                 sendMessage(QRocr(qq,msg))
+            else
+                if apiXmlGet("","imgraise",tostring(group))=="t" then
+                    local imgraise = require("app.baiduapi.imgraise")
+                    local status =  imgraise(qq,msg) 
+                    if status == "色情" or status== "性感" then
+                        sendMessage("账号"..qq.."发送"..status.."图片")
+                    end
+                end
             end
             return true
         end,

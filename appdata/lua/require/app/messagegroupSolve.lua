@@ -105,7 +105,7 @@ return function(inmsg, inqq, ingroup, inid)
             end
         end
     end
-    
+
     --广告监听
     local advert = apiXmlReplayGet("","advert",msg)
     if advert ~= "" then

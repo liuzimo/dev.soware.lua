@@ -660,5 +660,18 @@ return {
             return "清理数据"
         end
     },
+    {--图片鉴定
+        check = function()
+            return msg:find("图片鉴定")==1
+        end,
+        run = function()
+            local imgraise = require("app.baiduapi.imgraise")
+            sendMessage(imgraise(qq,msg))
+            return true
+        end,
+        explain = function()
+            return "图片鉴定"
+        end
+    },
 }
 end

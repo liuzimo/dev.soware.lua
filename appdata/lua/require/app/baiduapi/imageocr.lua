@@ -15,10 +15,9 @@ return function (qq,msg)
  
     local image = apiAdvancedGeneral(filename,baidutoken)
     if image=="" then return "识别失败" end
-
     local t = jsonDecode(image)
     if t["error_code"] then
-        return "请检查key是否正确，现阶段我们支持的图片格式为：PNG、JPG、JPEG、BMP，大小为4M"
+        return "请检查token是否过期(有效期一个月)，现阶段我们支持的图片格式为：PNG、JPG、JPEG、BMP，大小为4M"
     end
     local m=""
     for i=1,t["result_num"] do

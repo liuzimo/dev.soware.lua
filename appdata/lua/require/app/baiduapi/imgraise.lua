@@ -2,9 +2,9 @@
 
 return function (qq,msg,id)
     
-    if appkey=="" and secretkey=="" then
-        return "请设置百度AI开放平台appkey和secretkey"
-    end
+    -- if appkey=="" and secretkey=="" then
+    --     return "请设置百度AI开放平台appkey和secretkey"
+    -- end
     --imagePath = apiGetAsciiHex(imagePath):fromHex()--转码路径，以免乱码找不到文件
     apiGetImagePath(msg) -- 下载图片
     local filename = msg:gsub("%[CQ:image,file=",""):gsub("%]","")

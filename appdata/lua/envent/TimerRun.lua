@@ -10,12 +10,12 @@ time  定时器时间 string类型 格式 hour：min
 
 local result, info = pcall(function ()
     print = function (s)
-        cqSendPrivateMessage(tostring(s))
+        cqSendPrivateMessage(admin,tostring(s))
     end
     load(cqCqCode_UnTrope(apiXmlGet("timer","timertask",time)))()
 end)
 if result then
-    cqSendPrivateMessage("定时任务成功运行")
+    cqSendPrivateMessage(admin,"定时任务成功运行")
 else
-    cqSendPrivateMessage("定时任务运行失败\r\n"..tostring(info))
+    cqSendPrivateMessage(admin,"定时任务运行失败\r\n"..tostring(info))
 end

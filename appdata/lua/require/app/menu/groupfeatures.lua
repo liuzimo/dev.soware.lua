@@ -309,6 +309,6 @@ return {
             sendMessage(m)
             return true
         end,
-    }
+    },
     }
 end

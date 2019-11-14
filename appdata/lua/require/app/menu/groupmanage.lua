@@ -556,5 +556,18 @@ return {
             return "图片检测开启/关闭"
         end
     },
+    {--成语接龙
+        check = function()
+            return msg:find("？")==1 or msg:find("成语接龙帮助")==1 
+        end,
+        run = function()
+            local idiom = require("app.idiom")
+            sendMessage(idiom(group,msg))
+            return true
+        end,
+        explain = function()
+            return "成语接龙帮助 成语接龙请用？开头加成语"
+        end
+    },
 }
 end

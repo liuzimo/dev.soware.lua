@@ -648,7 +648,8 @@ return {
             -- os.execute("start cmd /c rd /s /q \""..path.."\"")
             -- os.remove(path)
             -- sendMessage("rd /s /q \""..path.."\"")
-            sendMessage("功能暂时关闭")
+            apiTimerStart()
+            sendMessage("当前更新方式为实时监测，每2小时自动更新，#apiSetTimerScriptWait(\"600\") 设置更新频率(秒)，重启应用关闭")
         end,
         explain = function()
             return "版本升级"

@@ -86,7 +86,7 @@ return function(inmsg, inqq, ingroup, inid)
                     return true
                 end
             else
-                sendMessage("权限不足！你不是主人，不是超管，也不是群管，你就是个凡人。")
+                sendMessage("你不是主人呀,我不能听你的噢！")
             end
             return true
         end

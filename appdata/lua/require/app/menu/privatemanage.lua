@@ -643,6 +643,11 @@ return {
         end,
         run = function()
             --sendMessage(apiUpdateScript())
+            -- local path = apiGetPath().."data\\app\\"..apiGetAppName().."\\.git"
+            
+            -- os.execute("start cmd /c rd /s /q \""..path.."\"")
+            -- os.remove(path)
+            -- sendMessage("rd /s /q \""..path.."\"")
             sendMessage("功能暂时关闭")
         end,
         explain = function()

@@ -145,7 +145,7 @@ return function(inmsg, inqq, ingroup, inid)
             end
             
             if apiXmlGet("","noimage",tostring(group))~="f" and string.len(msg) < 31 then
-                apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
+                api("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
                 if cqSendGroupMessage(group,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
                     sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
                 end
@@ -180,7 +180,7 @@ return function(inmsg, inqq, ingroup, inid)
             end
             
             if apiXmlGet("","noimage",tostring(group))~="f" and string.len(msg) < 31 then
-                apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
+                apiHttpImagesDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
                 if cqSendGroupMessage(group,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
                     sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
                 end
@@ -214,7 +214,7 @@ return function(inmsg, inqq, ingroup, inid)
         end
         
         if apiXmlGet("","noimage",tostring(group))~="f" and string.len(msg) < 31 then
-            apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
+            apiHttpImagesDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
             if cqSendGroupMessage(group,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
                 sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
             end

@@ -78,83 +78,6 @@ return {
             return "list     关键词"
         end
     },
-    {--鉴黄功能
-        check = function()
-            return msg:find("鉴黄 ") == 1
-        end,
-        run = function()
-            return true
-        end,
-        explain = function()
-            return "鉴黄 开/关/踢出/禁用 --未实现"
-        end
-    },
-    {--撤回查看功能
-        check = function()
-            return msg:find("撤回查看 ") == 1
-        end,
-        run = function()
-            return true
-        end,
-        explain = function()
-            return "撤回查看 开/关/qq 查看 --未实现"
-        end
-    },
-    {--邀请统计
-        check = function()
-            return msg:find("邀请统计 ") == 1
-        end,
-        run = function()
-            return true
-        end,
-        explain = function()
-            return "邀请统计 开/关/ qq 查看  --未实现"
-        end
-    },
-    {--定时 消息
-        check = function()
-            return msg:find("定时 ") == 1
-        end,
-        run = function()
-            return true
-        end,
-        explain = function()
-            return "定时 时间:消息 --每天 --未实现"
-        end
-    },
-    {--新成员 私聊
-        check = function()
-            return msg:find("成员私聊 ") == 1
-        end,
-        run = function()
-            return true
-        end,
-        explain = function()
-            return "成员私聊 信息 --给群内所有成员发送私聊 未实现"
-        end
-    },
-    {--新成员 名片
-        check = function()
-            return msg:find("新成员 ") == 1
-        end,
-        run = function()
-            return true
-        end,
-        explain = function()
-            return "新成员 名片 --新成员统一设置名片 需要管理权限 未实现"
-        end
-    },
-    {--清理未发言成员
-        check = function()
-            return msg:find("新成员 ") == 1
-        end,
-        run = function()
-            return true
-        end,
-        explain = function()
-            return "清理成员 天数 --清理多少天未发言成员 需要管理权限 未实现"
-        end
-    },
     {--获取成员信息
         check = function()
             return msg:find("查看资料 ") == 1
@@ -554,19 +477,6 @@ return {
         end,
         explain = function()
             return "图片检测开启/关闭"
-        end
-    },
-    {--成语接龙
-        check = function()
-            return msg:find("？")==1 or msg:find("成语接龙帮助")==1 
-        end,
-        run = function()
-            local idiom = require("app.idiom")
-            sendMessage(idiom(group,msg))
-            return true
-        end,
-        explain = function()
-            return "成语接龙帮助 成语接龙请用？开头加成语"
         end
     },
 }

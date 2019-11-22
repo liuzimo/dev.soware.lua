@@ -80,7 +80,7 @@ return function(inmsg, inqq, ingroup, inid)
             return true
         end
         if string.len(msg) < 45 then
-            apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
+            apiHttpImagesDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
             if cqSendPrivateMessage(qq,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
                 sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
             end

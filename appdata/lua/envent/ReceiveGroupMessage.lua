@@ -20,9 +20,9 @@ if admin==-1 then
 end
 
 --监听转发
-if apiXmlGet("","Monitor","Monitor") == "t" then
+if apiXmlGet("","Monitorlog","Monitor") == "t" then
     local q = admin
-    local cq = apiXmlGet("","Monitor","qq")
+    local cq = apiXmlGet("","Monitorlog","qq")
     if cq ~="" then
         q=cq
     end
@@ -32,7 +32,7 @@ if apiXmlGet("","Monitor","Monitor") == "t" then
     local list = dlist[1]
     for i = 0, num do
         if message:find(list[i]) then
-            cqSendPrivateMessage(tonumber(q),message)
+            cqSendPrivateMessage(tonumber(q),"转发自群"..fromgroup.."\n发言QQ "..fromqq.."\n内容:\n"..message)
             break
         end
     end

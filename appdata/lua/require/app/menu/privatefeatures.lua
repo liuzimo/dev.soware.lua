@@ -296,5 +296,25 @@ return {
             return true
         end
     },
+    {--点赞
+        check = function()
+            return msg:find("赞我")
+        end,
+        run = function()
+            local day = os.date("%Y年%m月%d日")--今天
+            local last = apiXmlGet("", "Praise",tostring(qq))
+            if last == day then
+                sendMessage(cqCode_At(qq).."今天已经给你点过赞啦")
+                return true
+            end
+            cqSendPraise(qq,10)
+            apiXmlSet("", "Praise",tostring(qq),day)
+            sendMessage(cqCode_At(qq).."给你点10个赞！")
+            return true
+        end,
+        explain = function()
+            return "赞我"
+        end
+    },
 }
 end

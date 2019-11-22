@@ -330,5 +330,49 @@ return {
             return "赞我"
         end
     },
-    }
+    {--腾讯短链接
+        check = function()
+            return msg:find("短链接") == 1
+        end,
+        run = function()
+            local keys = msg:gsub("短链接","")
+            keys = encodeURI(kickSpace(keys))
+            local surl = apiHttpGet("https://sa.sogou.com/gettiny?url="..keys)
+            if surl == nil then
+                sendMessage("请输入正确的网址")
+                return true
+            end
+            sendMessage(surl)
+        end,
+        explain = function()
+            return "短链接"
+        end
+    },
+    {--淘宝搜索
+    check = function()
+        return msg:find("淘宝搜索") == 1
+    end,
+    run = function()
+        local taobaosearch = require("app.taobaosearch")
+        taobaosearch(group,msg,false)
+        return true
+    end,
+    explain = function()
+        return "淘宝搜索 + 商品关键字   --销量前三商品店铺"
+    end
+    },
+    {--成语接龙
+        check = function()
+            return msg:find("？")==1 or msg:find("成语接龙帮助")==1 
+        end,
+        run = function()
+            local idiom = require("app.idiom")
+            sendMessage(idiom(group,msg))
+            return true
+        end,
+        explain = function()
+            return "成语接龙帮助 成语接龙请用？开头加成语"
+        end
+    },
+}
 end

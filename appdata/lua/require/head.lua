@@ -236,3 +236,17 @@ function strtotable(str)
     
     return load("return " .. str)()
 end
+--url解码
+function decodeURI(s)
+    s = string.gsub(s, '%%(%x%x)', function(h) return string.char(tonumber(h, 16)) end)
+    return s
+end
+--url编码
+function encodeURI(s)
+    s = string.gsub(s, "([^%w%.%- ])", function(c) return string.format("%%%02X", string.byte(c)) end)
+    return string.gsub(s, " ", "+")
+end
+--去除字符串两边空格
+function string.trim(s) 
+	return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
+end

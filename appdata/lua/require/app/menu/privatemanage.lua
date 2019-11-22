@@ -180,7 +180,7 @@ return {
             rootPath = rootPath:gsub("%x%x", function(c)
                 return string.char(tonumber(c, 16))
             end)
-            os.remove(rootPath .. "data/app/com.robot.soware/xml/grouplist.xml")
+            os.remove(rootPath .. "data/app/"..apiGetAppName().."/xml/grouplist.xml")
             for i = 0, n do
                 apiXmlSet("", "grouplist", tostring(list[i]["Id"]), "")
             end
@@ -322,7 +322,7 @@ return {
                 key = keys:split("，")
             end
             for i=1,#key do
-                apiXmlSet("","Monitor",key[i],"1")
+                apiXmlSet("","Monitor",key[i]:trim(),"1")
             end
             sendMessage("添加成功")
             return true
@@ -344,7 +344,7 @@ return {
                 key = keys:split("，")
             end
             for i=1,#key do
-                apiXmlRemove("","Monitor",key[i],"1")
+                apiXmlRemove("","Monitor",key[i]:trim(),"1")
             end
             sendMessage("删除成功")
             return true
@@ -382,7 +382,7 @@ return {
         end,
         run = function()
             local key = msg:match("(%d+)")
-            apiXmlSet("","Monitor","qq",key)
+            apiXmlSet("","Monitorlog","qq",key)
             return true
         end,
         explain = function()
@@ -394,7 +394,7 @@ return {
             return msg:find("开启监听") == 1
         end,
         run = function()
-            apiXmlSet("","Monitor","Monitor","t")
+            apiXmlSet("","Monitorlog","Monitor","t")
             sendMessage("开启成功")
             return true
         end,
@@ -407,7 +407,7 @@ return {
             return msg:find("关闭监听") == 1
         end,
         run = function()
-            apiXmlSet("","Monitor","Monitor","f")
+            apiXmlSet("","Monitorlog","Monitor","f")
             sendMessage("关闭成功")
             return true
         end,
@@ -429,13 +429,13 @@ return {
                 key = keys:split("，")
             end
             for i=1,#key do
-                apiXmlSet("","advert",key[i],"1")
+                apiXmlSet("","advert",key[i]:trim(),"1")
             end
             sendMessage("添加成功")
             return true
         end,
         explain = function()--功能解释，返回为字符串，若无需显示解释，返回nil即可
-            return "添加监听 1,2,3,4"
+            return "添加广告 1,2,3,4"
         end
     },
     {--广告关键字删除
@@ -452,13 +452,13 @@ return {
                 key = keys:split("，")
             end
             for i=1,#key do
-                apiXmlRemove("","advert",key[i],"1")
+                apiXmlRemove("","advert",key[i]:trim(),"1")
             end
             sendMessage("删除成功")
             return true
         end,
         explain = function()--功能解释，返回为字符串，若无需显示解释，返回nil即可
-            return "删除监听 1,2,3,4"
+            return "删除广告 1,2,3,4"
         end
     },
     {--广告列表
@@ -490,15 +490,14 @@ return {
         end,
         run = function()
             local keys = msg:gsub("添加定时","")
-            keys = kickSpace(keys)
             local key = keys:split(":")
-            apiXmlSet("timer","timertask",key[1]..":"..key[2],key[3])
+            apiXmlSet("timer","timertask",key[1]:trim()..":"..key[2]:trim(),key[3])
             apiUpdateTimerTask()
             sendMessage("添加成功")
             return true
         end,
         explain = function()
-            return "添加定时任务"
+            return "添加定时任务 时:分：代码"
         end
     },
     {--定时任务删除
@@ -515,7 +514,7 @@ return {
                 key = keys:split("，")
             end
             for i=1,#key do
-                apiXmlDelete("timer","timertask",key[i])
+                apiXmlDelete("timer","timertask",key[i]:trim())
             end
             sendMessage("删除成功")
             return true
@@ -649,7 +648,9 @@ return {
             -- os.remove(path)
             -- sendMessage("rd /s /q \""..path.."\"")
             apiTimerStart()
-            sendMessage("当前更新方式为实时监测，每2小时自动更新，#apiSetTimerScriptWait(\"600\") 设置更新频率(秒)，重启应用关闭")
+            apiSetTimerScriptWait(0)
+            sendMessage("当前更新方式为实时监测，每12小时自动更新，#apiSetTimerScriptWait(600) 设置更新频率(秒)，重启应用关闭，执行本命令可立刻更新")
+            apiSetTimerScriptWait(7200)
         end,
         explain = function()
             return "版本升级"
@@ -663,8 +664,57 @@ return {
             sendMessage(apiDelCache())
         end,
         explain = function()
-            return "清理数据"
+            return "清理数据 --清理过期图片，语音"
         end
+    },
+    -- {--站长短链接
+    -- check = function()
+    --     return msg:find("短链接") == 1
+    -- end,
+    -- run = function()
+    --     local keys = msg:gsub("短链接","")
+    --     keys = encodeURI(kickSpace(keys))
+    --     local surl = apiHttpPost("http://tool.chinaz.com/tools/dwz.aspx","longurl="..keys.."&aliasurl="):match("shorturl\">(.-)</span>")
+    --     if surl == nil then
+    --         sendMessage("请输入正确的网址")
+    --         return true
+    --     end
+    --     sendMessage(surl)
+    -- end,
+    -- explain = function()
+    --     return "短链接"
+    -- end
+    -- },
+    {--腾讯短链接
+    check = function()
+        return msg:find("短链接") == 1
+    end,
+    run = function()
+        local keys = msg:gsub("短链接","")
+        keys = encodeURI(kickSpace(keys))
+        local surl = apiHttpGet("https://sa.sogou.com/gettiny?url="..keys)
+        if surl == nil then
+            sendMessage("请输入正确的网址")
+            return true
+        end
+        sendMessage(surl)
+    end,
+    explain = function()
+        return "短链接"
+    end
+    },
+    {--商品查询
+    check = function()
+        return msg:find("淘宝搜索") == 1
+    end,
+    run = function()
+        local taobaosearch = require("app.taobaosearch")
+        taobaosearch(qq,msg,true)
+        return true
+    end,
+    explain = function()
+        return "淘宝搜索 + 商品关键字   --销量前三商品店铺"
+    end
     },
 }
 end

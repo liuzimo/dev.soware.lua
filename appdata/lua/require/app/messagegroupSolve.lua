@@ -59,7 +59,7 @@ return function(inmsg, inqq, ingroup, inid)
             table.concat(allApp, "\n") .. "\n")
             return true
         end
-        sendMessage("权限不足！")
+        sendMessage("你没有操作权限！")
         return true
     end
     
@@ -86,7 +86,7 @@ return function(inmsg, inqq, ingroup, inid)
                     return true
                 end
             else
-                sendMessage("你不是主人呀,我不能听你的噢！")
+                sendMessage("你没有操作权限！")
             end
             return true
         end
@@ -117,84 +117,34 @@ return function(inmsg, inqq, ingroup, inid)
         return true
     end
 
-    if admin == 1730224175 then
-        if not msg:find("%[CQ:") and msg:find("崽崽") then
-            
-            msg = msg:gsub("崽崽", "")
-            keyWord = kickSpace(keyWord)
-
-            local replyGroup = apiXmlReplayGet(tostring(group),"common",msg)
-            local replyCommon = apiXmlReplayGet("","common",msg)
-            local replyrecord = apiXmlReplayGet("record\\"..apiGetVar("mettle"),"replayrecord",msg)
-            if apiXmlGet("","norecord",tostring(group))=="f" then
-                replyrecord = ""
-            end
-    
-            if replyGroup == "" and replyCommon ~= "" then
-                sendMessage(replyCommon)
-                return true
-            elseif replyGroup ~= "" and replyCommon == "" then
-                sendMessage(replyGroup)
-                return true
-            elseif replyGroup ~= "" and replyCommon ~= "" then
-                sendMessage(math.random(1,10)>=5 and replyCommon or replyGroup)
-                return true
-            elseif replyrecord ~= "" then
-                sendMessage(cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
+    --判断是否设置机器人唤醒词 和回复概率
+    if name ~= "" then
+        if msg:find(name)==1 then
+            msg = msg:gsub(name,""):trim()
+            if msg == "" then
+                sendMessage("叫我干什么呢")
                 return true
             end
-            
-            if apiXmlGet("","noimage",tostring(group))~="f" and string.len(msg) < 31 then
-                api("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
-                if cqSendGroupMessage(group,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
-                    sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
+        else
+            if probability ~= "" then
+                if math.random(1,10) > tonumber(probability)   then
+                    return true 
                 end
+            else
                 return true
             end
+        end
+    elseif probability ~= "" then
+        if math.random(1,10) > tonumber(probability)   then
             return true
         end
-        local chance = math.random(1,10)
-        if chance>2 then
-            return true
-        end
-        if not msg:find("%[CQ:") then
-            local replyGroup = apiXmlReplayGet(tostring(group),"common",msg)
-            local replyCommon = apiXmlReplayGet("","common",msg)
-            local replyrecord = apiXmlReplayGet("record\\"..apiGetVar("mettle"),"replayrecord",msg)
-            if apiXmlGet("","norecord",tostring(group))=="f" then
-                replyrecord = ""
-            end
-    
-            if replyGroup == "" and replyCommon ~= "" then
-                sendMessage(replyCommon)
-                return true
-            elseif replyGroup ~= "" and replyCommon == "" then
-                sendMessage(replyGroup)
-                return true
-            elseif replyGroup ~= "" and replyCommon ~= "" then
-                sendMessage(math.random(1,10)>=5 and replyCommon or replyGroup)
-                return true
-            elseif replyrecord ~= "" then
-                sendMessage(cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
-                return true
-            end
-            
-            if apiXmlGet("","noimage",tostring(group))~="f" and string.len(msg) < 31 then
-                apiHttpImagesDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
-                if cqSendGroupMessage(group,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
-                    sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
-                end
-                return true
-            end
-            return true
-        end
-        return true
     end
+
     --通用回复
     if not msg:find("%[CQ:") then
         local replyGroup = apiXmlReplayGet(tostring(group),"common",msg)
         local replyCommon = apiXmlReplayGet("","common",msg)
-        local replyrecord = apiXmlReplayGet("record\\"..apiGetVar("mettle"),"replayrecord",msg)
+        local replyrecord = apiXmlReplayGet("record\\"..mettle,"replayrecord",msg)
         if apiXmlGet("","norecord",tostring(group))=="f" then
             replyrecord = ""
         end
@@ -209,7 +159,7 @@ return function(inmsg, inqq, ingroup, inid)
             sendMessage(math.random(1,10)>=5 and replyCommon or replyGroup)
             return true
         elseif replyrecord ~= "" then
-            sendMessage(cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
+            sendMessage(cqCqCode_Record(mettle.."\\"..replyrecord))
             return true
         end
         

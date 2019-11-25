@@ -50,7 +50,7 @@ return function(inmsg, inqq, ingroup, inid)
                     return true
                 end
             else
-                sendMessage("权限不足！你不是主人！")
+                sendMessage("你没有操作权限！")
             end
             return true
         end
@@ -68,15 +68,15 @@ return function(inmsg, inqq, ingroup, inid)
         -- local replyCommon = apiXmlReplayGet("", "common", msg)
         -- sendMessage(replyCommon)
         local replyCommon = apiXmlReplayGet("","common",msg)
-        local replyrecord = apiXmlReplayGet("record\\"..apiGetVar("mettle"),"replayrecord",msg)
+        local replyrecord = apiXmlReplayGet("record\\"..mettle,"replayrecord",msg)
         if replyrecord == "" and replyCommon ~= "" then
             sendMessage(replyCommon)
             return true
         elseif replyrecord ~= "" and replyCommon == "" then
-            sendMessage(cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
+            sendMessage(cqCqCode_Record(mettle.."\\"..replyrecord))
             return true
         elseif replyrecord ~= "" and replyCommon ~= "" then
-            sendMessage(math.random(1,10)>=5 and replyCommon or cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
+            sendMessage(math.random(1,10)>=5 and replyCommon or cqCqCode_Record(mettle.."\\"..replyrecord))
             return true
         end
         if string.len(msg) < 45 then

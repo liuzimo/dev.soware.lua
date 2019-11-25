@@ -2,45 +2,40 @@
 --用于提前声明某些要用到的函数
 --管理员账号，从xml中读取
 --只会在启动第一次执行的时候读一次，后面都不读
-admin = tonumber(apiGetVar("adminqq")) or -1
-if admin == -1 then
-    admin = apiXmlGet("","settings", "adminqq")
-    apiSetVar("adminqq", admin)
-    admin = tonumber(admin) or -1
+-- admin = tonumber(apiGetVar("adminqq")) or -1
+-- if admin == -1 then
+--     admin = apiXmlGet("","settings", "adminqq")
+--     apiSetVar("adminqq", admin)
+--     admin = tonumber(admin) or -1
+-- end
+
+
+-- 管理员账号，从xml中读取
+-- 只会在启动第一次执行的时候读一次，后面都不读
+admin = apiXmlGet("","settings", "adminqq")
+if admin ~="" then
+    admin = tonumber(admin)
 end
 --百度AI开放平台token，从xml中读取
 --只会在启动第一次执行的时候读一次，后面都不读
-baidutoken = apiGetVar("baidutoken")
-if baidutoken == "" then
-    baidutoken = apiXmlGet("","settings", "baidutoken")
-    apiSetVar("baidutoken", baidutoken)
-end
+aidutoken = apiXmlGet("","settings", "baidutoken")
 --百度AI开放平台APPKEY，从xml中读取
 --只会在启动第一次执行的时候读一次，后面都不读
-appkey = apiGetVar("appkey")
-if appkey == "" then
-    appkey = apiXmlGet("","settings", "appkey")
-    apiSetVar("appkey", appkey)
-end
+appkey = apiXmlGet("","settings", "appkey")
 --百度AI开放平台SECRET_KEY，从xml中读取
 --只会在启动第一次执行的时候读一次，后面都不读
-secretkey = apiGetVar("secretkey")
-if secretkey == "" then
-    secretkey = apiXmlGet("","settings", "secretkey")
-    apiSetVar("secretkey", secretkey)
-end
+secretkey = apiXmlGet("","settings", "secretkey")
 --天行数据平台KEY，从xml中读取
 --只会在启动第一次执行的时候读一次，后面都不读
-tianxinkey = apiGetVar("tianxinkey")
-if tianxinkey == "" then
-    tianxinkey = apiXmlGet("","settings", "tianxinkey")
-    apiSetVar("tianxinkey", tianxinkey)
-end
-
-
+tianxinkey = apiXmlGet("","settings", "tianxinkey")
+--机器人昵称，从xml中读取
+--只会在启动第一次执行的时候读一次，后面都不读
+name = apiXmlGet("","settings", "name")
+--回复频率，从xml中读取
+--只会在启动第一次执行的时候读一次，后面都不读
+probability = apiXmlGet("","settings", "probability")
 --读取语音性格
 mettle = apiXmlGet("","settings", "mettle")
-apiSetVar("mettle", mettle)
 
 -- if admin == -1 then
 --     cqAddLoger(20, "lua插件警告", "请去" .. apiGetPath() .. "data/app/com.robot.soware/xml/settings.xml文件，设置管理员qq！")

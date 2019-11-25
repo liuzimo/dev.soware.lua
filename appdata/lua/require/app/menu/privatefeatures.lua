@@ -274,7 +274,7 @@ return {
     },
     {--开机密码
         check = function()
-            return msg == "我爱你" and admin==-1 
+            return msg == "我爱你" and admin=="" 
         end,
         run = function()
             -- local replyCommon = apiXmlReplayGet("", "common", msg)
@@ -287,7 +287,7 @@ return {
     },
     {--初始验证
         check = function()
-            return admin==-1 
+            return admin=="" 
         end,
         run = function()
             -- local replyCommon = apiXmlReplayGet("", "common", msg)

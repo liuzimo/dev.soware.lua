@@ -296,13 +296,40 @@ return {
             return true
         end,
     },
+    {--机器人唤醒词设置
+        check = function()
+            return msg:find("唤醒词") == 1
+        end,
+        run = function()
+            name = msg:gsub("唤醒词",""):trim()
+            apiXmlSet("","settings", "name",name)
+            sendMessage("在群里叫我"..name..",我就会回复你啦！")
+            return true
+        end,
+        explain = function()
+            return "唤醒词"
+        end
+    },
+    {--机器人回复概率设置
+        check = function()
+            return msg:find("回复概率") == 1
+        end,
+        run = function()
+            probability = msg:gsub("回复概率",""):trim()
+            apiXmlSet("","settings", "probability",probability)
+            sendMessage("当前群内回复概率调整为"..probability.."0%")
+            return true
+        end,
+        explain = function()
+            return "回复概率 + 0~10 (10为百分百)"
+        end
+    },
     {--语音性格设置
         check = function()
             return msg:find("语音性格设置") == 1
         end,
         run = function()
-            local mettle = msg:gsub("语音性格设置","")
-            apiSetVar("mettle", mettle)
+            mettle = msg:gsub("语音性格设置",""):trim()
             return true
         end,
         explain = function()

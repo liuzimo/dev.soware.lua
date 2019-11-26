@@ -674,10 +674,11 @@ return {
             -- os.execute("start cmd /c rd /s /q \""..path.."\"")
             -- os.remove(path)
             -- sendMessage("rd /s /q \""..path.."\"")
-            apiTimerStart()
-            apiSetTimerScriptWait(0)
-            sendMessage("当前更新方式为实时监测，每12小时自动更新，#apiSetTimerScriptWait(600) 设置更新频率(秒)，重启应用关闭，执行本命令可立刻更新")
-            apiSetTimerScriptWait(7200)
+            -- apiTimerStart()
+            -- apiSetTimerScriptWait(0)
+            -- sendMessage("当前更新方式为实时监测，每12小时自动更新，#apiSetTimerScriptWait(600) 设置更新频率(秒)，重启应用关闭，执行本命令可立刻更新")
+            -- apiSetTimerScriptWait(7200)
+            sendMessage(apiUpdateScript())
         end,
         explain = function()
             return "版本升级"

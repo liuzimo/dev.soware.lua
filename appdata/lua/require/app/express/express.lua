@@ -1,6 +1,6 @@
 --主动查快递
 return function(msg,qq)
-    local logisticode = msg:match("(%d+)")
+    local logisticode = msg:gsub("查快递",""):trim()
     --判断是否选择快递公司
     local shipper = apiXmlGet("logisticode", logisticode, "t")
     if shipper ~= "" then

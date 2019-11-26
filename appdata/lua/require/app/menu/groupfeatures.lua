@@ -72,7 +72,7 @@ return {
     },
     {--点歌
         check = function()
-            return msg:find("点歌") == 1
+            return msg:find("点歌") == 1 or msg:find("来首") == 1
         end,
         run = function()
             local qqmusic = require("app.qqmusic")

@@ -4,6 +4,8 @@ return function(msg, qq, group)
 
     local cards = apiXmlGet(tostring(group), "banCard", tostring(qq))
     cards = cards == "" and 0 or tonumber(cards) or 0
+    local kcards = apiXmlGet(tostring(group), "keepCard", tostring(qq))
+    kcards = kcards == "" and 0 or tonumber(kcards) or 0
 
     --抽奖
     if msg == "抽奖" then
@@ -41,9 +43,16 @@ return function(msg, qq, group)
 
 
         if math.random() > 0.9 then
-            local banTime = math.random(1, 60)
+            local banTime = math.random(1, 10)
             cqSetGroupBanSpeak(group, qq, banTime * 60)
             return cqCode_At(qq) .. "恭喜你抽中了禁言" .. tostring(banTime) .. "分钟"
+
+        elseif math.random() > 0.5 then
+            local banCard = math.random(1, 3)
+                kcards = kcards + banCard
+                apiXmlSet(tostring(group), "keepCard", tostring(qq), tostring(kcards))
+                return cqCode_At(qq) .. "恭喜你抽中了" .. tostring(banCard) .. "张免禁卡\r\n" ..
+                "当前免禁卡数量：" .. tostring(kcards)
         else
             local banCard = math.random(1, 6)
             cards = cards + banCard
@@ -55,7 +64,7 @@ return function(msg, qq, group)
         --禁言卡查询
     elseif msg == "禁言卡" then
 
-        return cqCode_At(qq) .. "当前禁言卡数量：" .. tostring(cards)
+        return cqCode_At(qq) .. "当前禁言卡数量：" .. tostring(cards).."\n".. "当前免禁卡数量：" .. tostring(kcards)
 
         --禁言
     elseif msg:find("禁言卡%[CQ:at,qq=") then
@@ -64,9 +73,16 @@ return function(msg, qq, group)
         end
         apiXmlSet(tostring(group), "banCard", tostring(qq), tostring(cards - 1))
         local v = tonumber(msg:match("(%d+)"))
-        local banTime = math.random(1, 60)
+        kcards = apiXmlGet(tostring(group), "keepCard", tostring(v))
+        kcards = kcards == "" and 0 or tonumber(kcards) or 0
+        local banTime = math.random(1, 10)
         cqSetGroupBanSpeak(group, v, banTime * 60)
-        return cqCode_At(qq) .. "已将" .. tostring(v) .. "禁言" .. tostring(banTime) .. "分钟"
+        if kcards <= 0 then
+            return cqCode_At(qq) .. "已将" .. tostring(v) .. "禁言" .. tostring(banTime) .. "分钟"
+        end
+        apiXmlSet(tostring(group), "keepCard", tostring(v), tostring(kcards-1))
+        return cqCode_At(qq).."对方消耗一张免禁卡，禁言不起作用"
+        
         --禁言解除
     elseif msg:find("禁言解除%[CQ:at,qq=") then
         if cards <= 0 then

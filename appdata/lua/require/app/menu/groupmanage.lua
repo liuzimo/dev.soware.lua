@@ -137,6 +137,9 @@ return {
         end,
         run = function()
             local q = tonumber(msg:match("(%d+)"))
+            if q == nil then
+                return "命令： 解除禁言@某个人"
+            end
             cqSetGroupBanSpeak(group, q, -1)
             return true
         end,

@@ -85,6 +85,7 @@ return function(msg, qq, group)
         
         --禁言解除
     elseif msg:find("禁言解除%[CQ:at,qq=") then
+        local v = tonumber(msg:match("(%d+)"))
         if cards <= 0 then
             return cqCode_At(qq) .. "你只有" .. tostring(cards) .. "张禁言卡，无法操作"
         end
@@ -93,6 +94,6 @@ return function(msg, qq, group)
         local v = tonumber(msg:match("(%d+)"))
         return cqCode_At(qq) .. "已将" .. tostring(v) .. "解除禁言" 
     else
-        return "格式：禁言@QQ "
+        return "命令：禁言@QQ "
     end
 end

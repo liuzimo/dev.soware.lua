@@ -374,5 +374,30 @@ return {
             return "成语接龙帮助 成语接龙请用？开头加成语"
         end
     },
+    {--日程提醒
+        check = function()
+            return msg:find("提醒我")
+        end,
+        run = function()
+            local keys = msg:gsub("提醒我",":")
+            local key = keys:split(":")
+            local h = key[1]:match("(%d+)")
+            local m = key[2]:match("(%d+)")
+            if h == nil or m == nil or key[3] == nil then
+                return true
+            end
+            local c = key[3]:trim()
+            local d = "cqSendGroupMessage("..group..",cqCode_At("..qq..")..\""..c.."\")".."\n"..
+            "apiXmlDelete(\"timer\",\"timertask\",\""..h..":"..m.."\")"
+            apiXmlSet("timer","timertask",h..":"..m,d)
+            --os.date("%H:%M",os.time()+600)
+            apiUpdateTimerTask()
+            sendMessage("好的")
+            return true
+        end,
+        explain = function()
+            return "提醒我"
+        end
+    },
 }
 end

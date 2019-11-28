@@ -388,7 +388,7 @@ return {
             end
             if m:find("00")==1 then
                 m = "0"
-            elseif m:find("0")==1
+            elseif m:find("0")==1 then
                 m = m:gsub("0","")
             end
             local c = key[3]:trim()

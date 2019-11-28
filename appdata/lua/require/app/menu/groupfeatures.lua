@@ -386,7 +386,9 @@ return {
             if h == nil or m == nil or key[3] == nil then
                 return true
             end
-            if m:find("0")==1 then
+            if m:find("00")==1 then
+                m = "0"
+            elseif m:find("0")==1
                 m = m:gsub("0","")
             end
             local c = key[3]:trim()

@@ -383,7 +383,7 @@ return {
             local key = keys:split(":")
             local h = key[1]:match("(%d+)")
             local m = key[2]:match("(%d+)")
-            if h == nil or m == nil or key[3] == nil then
+            if h == nil or m == nil or key[3] == nil or tonumber(h) > 24 or tonumber(m) > 60 then
                 return true
             end
             if m:find("00")==1 then

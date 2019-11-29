@@ -94,6 +94,6 @@ return function(msg, qq, group)
         local v = tonumber(msg:match("(%d+)"))
         return cqCode_At(qq) .. "已将" .. tostring(v) .. "解除禁言" 
     else
-        return "命令：禁言@QQ "
+        return "禁言卡 禁言命令：禁言卡@QQ ".."\n".."禁言卡解除禁言命令：禁言解除@QQ "
     end
 end

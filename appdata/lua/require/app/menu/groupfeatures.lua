@@ -404,5 +404,39 @@ return {
             return "提醒我"
         end
     },
+    {--QQ个性名生成
+        check = function()
+            return msg:find("个性网名")==1
+        end,
+        run = function()
+            local keys = msg:gsub("个性网名",""):trim()
+            if keys == "" then
+                sendMessage("个性网名+内容")
+            end
+            local key = encodeURI(keys)
+            local namehtml = apiHttpPost("http://www.qfans.net/wangming/a","action=submit&qq="..key.."&ytz="..key):match("yigea\">(.-)</ul>")
+            local names = ""
+            local i = 0
+            local j = 0
+            for name in namehtml:gmatch(">(.-)</li>") do
+                if i > 0 then
+                    if j > 3 then
+                        names = names ..name
+                        break
+                    end
+                    names = names ..name.."\n"
+                    i = 0
+                    j = j+1
+                end
+                names = names ..name:gsub("\r","").."            "
+                i = i + 1
+            end
+            sendMessage(names)
+            return true
+        end,
+        explain = function()
+            return "个性网名+内容"
+        end
+    },
 }
 end

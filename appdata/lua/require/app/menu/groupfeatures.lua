@@ -428,8 +428,10 @@ return {
                     i = 0
                     j = j+1
                 end
-                names = names ..name:gsub("\r","").."            "
-                i = i + 1
+                if math.random(1,2)~=1 then
+                    names = names ..name:gsub("\r","").."            "
+                    i = i + 1
+                end
             end
             sendMessage(names)
             return true

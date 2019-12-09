@@ -75,9 +75,9 @@ return function(msg, qq, group)
         local v = tonumber(msg:match("(%d+)"))
         kcards = apiXmlGet(tostring(group), "keepCard", tostring(v))
         kcards = kcards == "" and 0 or tonumber(kcards) or 0
-        local banTime = math.random(1, 10)
-        cqSetGroupBanSpeak(group, v, banTime * 60)
         if kcards <= 0 then
+            local banTime = math.random(1, 10)
+            cqSetGroupBanSpeak(group, v, banTime * 60)
             return cqCode_At(qq) .. "已将" .. tostring(v) .. "禁言" .. tostring(banTime) .. "分钟"
         end
         apiXmlSet(tostring(group), "keepCard", tostring(v), tostring(kcards-1))
